@@ -1,0 +1,10 @@
+server {
+  listen 8000;
+  server_name practicalml;
+  access_log  /var/log/nginx/example.log;
+
+  location / {
+      proxy_pass http://practicalml:8000;
+      proxy_set_header Host $NGINX_HOST;
+  }
+}
