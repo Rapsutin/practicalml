@@ -1,2 +1,12 @@
 django==1.10.5
 gunicorn==19.6.0
+h5py==2.6.0
+numpy==1.12.0
+scipy==0.18.1
+h5py==2.6.0
+pyyaml==3.12
+keras==1.2.1
+requests==2.13.0
+huey==1.2.2
+tensorflow==0.12.1
+redis==2.10.5

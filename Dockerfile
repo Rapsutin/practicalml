@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app
 RUN python manage.py collectstatic --noinput
-CMD gunicorn -b 0.0.0.0:8000 practicalml.wsgi:application
+CMD ./runapp.sh

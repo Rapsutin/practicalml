@@ -15,7 +15,13 @@ services:
 
   practicalml:
     build: .
+    depends_on:
+      - redis
+    volumes:
+      - mldb:/usr/src/app/data
 
+  redis:
+    image: redis:3.2.6
 
-  
-
+volumes:
+  mldb:
