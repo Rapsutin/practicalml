@@ -8,7 +8,7 @@ import numpy as np
 logger = logging.getLogger(__name__)
 from datetime import timedelta
 
-@periodic_task(crontab(minute='*'))
+@periodic_task(crontab(minute='*/10'))
 def fetch_data():
     response = requests.get("https://api.bitfinex.com/v2/candles/trade:1m:tBTCUSD/hist")
     candlesticks = response.json()
