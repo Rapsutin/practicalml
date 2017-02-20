@@ -7,8 +7,9 @@ import logging
 import numpy as np
 logger = logging.getLogger(__name__)
 from datetime import timedelta
+from keras import backend as keras_backend
 
-@periodic_task(crontab(minute='*/10'))
+@periodic_task(crontab(minute='*'))
 def fetch_data():
     response = requests.get("https://api.bitfinex.com/v2/candles/trade:1m:tBTCUSD/hist")
     candlesticks = response.json()
@@ -32,7 +33,4 @@ def predict():
             prediction_time = window_with_datetimes[-1][0] + timedelta(minutes=4)
             Prediction(time=prediction_time, prediction_type=str(i), prediction=prediction).save()
 
-
-
-
-
+    keras_backend.clear_session() # Has to be cleared, otherwise memory starts to leak.
