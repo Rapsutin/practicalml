@@ -40,4 +40,7 @@ def create_plots():
     plt.plot(cumulative_profit)
     plt.savefig('/var/www/practicalml/static/test.png')
     plt.close('all')
+    plt.plot(cumulative_profit[-250:])
+    plt.savefig('/var/www/practicalml/static/test_250.png')
+    plt.close('all')
 
