@@ -94,5 +94,19 @@ class Prediction(models.Model):
     prediction = models.FloatField()
     prediction_type = models.CharField(max_length=100)
 
+    @staticmethod
+    def profits_for_type(prediction_type):
+        profits = list(Prediction.objects.raw(
+            """
+            SELECT p.id, p.time, case when p.prediction > c.close then r.close - c.close else c.close - r.close end as profit
+            FROM ml_frontend_prediction p
+            JOIN ml_frontend_candlestick c ON datetime(c.time, '4 minutes') = p.time
+            JOIN ml_frontend_candlestick r ON r.time = p.time
+            WHERE p.prediction_type = 4
+            ORDER BY p.time
+            """
+        ))
+        return profits
+
     class Meta:
         unique_together = (("time", "prediction_type"))

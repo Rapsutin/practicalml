@@ -7,6 +7,7 @@ import numpy as np
 import subprocess
 logger = logging.getLogger(__name__)
 from datetime import timedelta
+import matplotlib.pyplot as plt
 
 @periodic_task(crontab(minute='*/3'))
 def fetch_data():
@@ -15,6 +16,7 @@ def fetch_data():
     Candlestick.create_candlesticks_from_json(candlesticks)
     logging.info("Fetched candlesticks")
     predict()
+    create_plots()
 
 def predict():
     unpredicted_start_times = list(Candlestick.without_predictions())
@@ -31,4 +33,11 @@ def predict():
             logger.error(prediction)
             prediction_time = window_with_datetimes[-1][0] + timedelta(minutes=4)
             Prediction(time=prediction_time, prediction_type=str(i), prediction=prediction).save()
+
+def create_plots():
+    profits = np.array([pred.profit for pred in Prediction.profits_for_type(4)])
+    cumulative_profit = np.cumsum(profits)
+    plt.plot(cumulative_profit)
+    plt.savefig('/var/www/practicalml/static/test.png')
+    plt.close('all')
 

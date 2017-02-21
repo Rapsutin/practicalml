@@ -10,3 +10,4 @@ requests==2.13.0
 huey==1.2.2
 tensorflow==0.12.1
 redis==2.10.5
+matplotlib==2.0.0
