@@ -8,7 +8,7 @@ import subprocess
 logger = logging.getLogger(__name__)
 from datetime import timedelta
 
-@periodic_task(crontab(minute='*/15'))
+@periodic_task(crontab(minute='*/3'))
 def fetch_data():
     response = requests.get("https://api.bitfinex.com/v2/candles/trade:1m:tBTCUSD/hist")
     candlesticks = response.json()
@@ -18,7 +18,7 @@ def fetch_data():
 
 def predict():
     unpredicted_start_times = list(Candlestick.without_predictions())
-    for i in range(1, 6):
+    for i in range(4, 6):
         unpredicted_windows = Candlestick.all_unpredicted_windows(unpredicted_start_times, i)
         logger.error(str(i) + " " + str(len(unpredicted_windows)))
         for window_with_datetimes in unpredicted_windows:
